@@ -19,7 +19,7 @@
         }
 
         .viso {
-        	fill: none;
+            fill: none;
             stroke-width: 11px;
         }
 
@@ -45,11 +45,6 @@
             fill: none;
             stroke-width: 8px;
         }
-
-        /* @keyframes occhiolino {
-            50% {y1.baseVal.valueAsString:"150";y2.baseVal.valueAsString:"150";}
-            100% {y1.baseVal.valueAsString:"165.7";y2.baseVal.valueAsString:"143";}
-        } */
     </style>
 
 </head>
@@ -60,7 +55,7 @@
             <g id="faccia">
                 <circle id="viso" class="viso" cx="171.5" cy="171.5" r="166" />
                 <path id="bocca" class="bocca" d="M557.1,433.2c8.6,5.8,22.5,9.6,38.2,9.6s29.5-3.8,38.1-9.6"
-                    transform="translate(-423.8 -243.8)" />
+                    transform="translate(-423.8 -244)" />
                 <line id="occhio_destro" class="occhio_destro" x1="186.2" y1="165.7" x2="186.2" y2="143" />
                 <line id="occhio_sinistro" class="occhio_sinistro" x1="156.7" y1="165.7" x2="156.7" y2="143" />
             </g>
@@ -69,78 +64,90 @@
 
     <script>
 
-        const occhio_destro = document.getElementById("occhio_destro");
-        const occhio_sinistro = document.getElementById("occhio_sinistro");
         const viso = document.getElementById("viso");
         const bocca = document.getElementById("bocca");
-        
+        const body = document.getElementById("body");
+
         var notte = 1;
 
         document.addEventListener('click', function (event) {
 
             switch (event.target.id) {
                 case 'occhio_destro':
-                
-                	console.log('destro');
-                    
-                    occhio_destro.y1.baseVal.valueAsString = "150";
-                    occhio_destro.y2.baseVal.valueAsString = "150";
+                case 'occhio_sinistro':
 
-                    occhio_destro.y1.baseVal.valueAsString = "165.7";
-                    occhio_destro.y2.baseVal.valueAsString = "143";
+                    console.log('occhiolino');
+
+                    const occhio = document.getElementById(event.target.id);
+
+                    occhio.y1.baseVal.valueAsString = "165.7";
+                    occhio.y2.baseVal.valueAsString = "143";
 
                     var id = null;
-
                     var tmp = -1;
                     var ritorna = false;
                     clearInterval(id);
-                    id = setInterval(frame, 25);
-                    function frame() {
+                    var id = setInterval(animazioneOcchio, 20);
+                    function animazioneOcchio() {
                         if (tmp == 0) {
                             clearInterval(id);
                         } else {
-                            if (tmp == -11) {
+                            if (tmp == -12) {
                                 ritorna = true;
                             }
                             if (ritorna) { tmp++; }
                             else { tmp--; }
-                            occhio_destro.y1.baseVal.valueAsString = (165.7 + tmp).toString();
-                            occhio_destro.y2.baseVal.valueAsString = (143 - tmp).toString();
+                            occhio.y1.baseVal.value = 165.7 + tmp;
+                            occhio.y2.baseVal.value = 143 - tmp;
                         }
                     }
-                    
+
                     break;
-                    
+
                 case 'occhio_sinistro':
-                	
-                	console.log('sinistro');
-                	break;
-                	
+
+                    console.log('sinistro');
+                    break;
+
                 case 'viso':
-                	
-                	console.log("viso --> cambio colore");
-                	
-                	if (notte) {
-                		document.getElementById("body").style.backgroundColor = 'white';
-                		occhio_destro.style.stroke = "black";
-                		occhio_sinistro.style.stroke = "black";
-                		bocca.style.stroke = "black";
-                		viso.style.stroke = "black";
-                		notte = 0;
-                	} else {
-                		document.getElementById("body").style.backgroundColor = 'black';
-                		occhio_destro.style.stroke = "white";
-                		occhio_sinistro.style.stroke = "white";
-                		bocca.style.stroke = "white";
-                		viso.style.stroke = "white";
-                		notte = 1;
-                	}
-                	break;
-                	
+
+                    console.log("viso --> cambio colore");
+
+                    if (notte) {
+                        body.style.backgroundColor = 'white';
+                        occhio_destro.style.stroke = occhio_sinistro.style.stroke = bocca.style.stroke = viso.style.stroke = "black";
+                        notte = 0;
+                    } else {
+                        body.style.backgroundColor = 'black';
+                        occhio_destro.style.stroke = occhio_sinistro.style.stroke = bocca.style.stroke = viso.style.stroke = "white";
+                        notte = 1;
+                    }
+                    break;
+
                 case 'bocca':
-                	
-                	console.log("bocca");
-                	break;
+
+                    console.log("bocca");
+
+                    var id = null;
+                    var tmp = -1;
+                    var ritorna = false;
+                    clearInterval(id);
+                    var id = setInterval(animazioneBocca, 20);
+                    function animazioneBocca() {
+                        if (tmp == 0) {
+                            clearInterval(id);
+                        } else {
+                            if (tmp == -22) {
+                                ritorna = true;
+                            }
+                            if (ritorna) { tmp++; }
+                            else { tmp--; }
+                            bocca.transform.baseVal[0].matrix.f = -200 + tmp;
+                            bocca.transform.baseVal[0].matrix.f = -244 - tmp;
+                        }
+                    }
+
+                    break;
 
                 default: break;
             }
