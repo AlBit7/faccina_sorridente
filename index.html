@@ -5,7 +5,7 @@
     <title>faccina</title>
 
     <style>
-        body {
+        #body {
             margin: 0px;
             background-color: black;
             height: 100%;
@@ -19,7 +19,7 @@
         }
 
         .viso {
-            fill: black;
+        	fill: none;
             stroke-width: 11px;
         }
 
@@ -34,7 +34,8 @@
 
         .occhio_sinistro:hover,
         .occhio_destro:hover,
-        .bocca:hover {
+        .bocca:hover,
+        .viso:hover {
             cursor: pointer;
         }
 
@@ -53,7 +54,7 @@
 
 </head>
 
-<body>
+<body id="body">
     <div id="faccina_sorridente">
         <svg width="342.9" height="342.9" viewBox="0 0 342.9 342.9">
             <g id="faccia">
@@ -70,11 +71,18 @@
 
         const occhio_destro = document.getElementById("occhio_destro");
         const occhio_sinistro = document.getElementById("occhio_sinistro");
+        const viso = document.getElementById("viso");
+        const bocca = document.getElementById("bocca");
+        
+        var notte = 1;
 
         document.addEventListener('click', function (event) {
 
             switch (event.target.id) {
                 case 'occhio_destro':
+                
+                	console.log('destro');
+                    
                     occhio_destro.y1.baseVal.valueAsString = "150";
                     occhio_destro.y2.baseVal.valueAsString = "150";
 
@@ -86,7 +94,7 @@
                     var tmp = -1;
                     var ritorna = false;
                     clearInterval(id);
-                    id = setInterval(frame, 50);
+                    id = setInterval(frame, 25);
                     function frame() {
                         if (tmp == 0) {
                             clearInterval(id);
@@ -100,6 +108,39 @@
                             occhio_destro.y2.baseVal.valueAsString = (143 - tmp).toString();
                         }
                     }
+                    
+                    break;
+                    
+                case 'occhio_sinistro':
+                	
+                	console.log('sinistro');
+                	break;
+                	
+                case 'viso':
+                	
+                	console.log("viso --> cambio colore");
+                	
+                	if (notte) {
+                		document.getElementById("body").style.backgroundColor = 'white';
+                		occhio_destro.style.stroke = "black";
+                		occhio_sinistro.style.stroke = "black";
+                		bocca.style.stroke = "black";
+                		viso.style.stroke = "black";
+                		notte = 0;
+                	} else {
+                		document.getElementById("body").style.backgroundColor = 'black';
+                		occhio_destro.style.stroke = "white";
+                		occhio_sinistro.style.stroke = "white";
+                		bocca.style.stroke = "white";
+                		viso.style.stroke = "white";
+                		notte = 1;
+                	}
+                	break;
+                	
+                case 'bocca':
+                	
+                	console.log("bocca");
+                	break;
 
                 default: break;
             }
