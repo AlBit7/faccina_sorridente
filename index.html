@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>faccina</title>
+
+    <style>
+        body {
+            margin: 0px;
+            background-color: black;
+            height: 100%;
+        }
+
+        #faccina_sorridente {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .viso {
+            fill: black;
+            stroke-width: 11px;
+        }
+
+        .viso,
+        .occhio_sinistro,
+        .occhio_destro,
+        .bocca {
+            stroke: #fff;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .occhio_sinistro:hover,
+        .occhio_destro:hover,
+        .bocca:hover {
+            cursor: pointer;
+        }
+
+        .occhio_sinistro,
+        .occhio_destro,
+        .bocca {
+            fill: none;
+            stroke-width: 8px;
+        }
+
+        /* @keyframes occhiolino {
+            50% {y1.baseVal.valueAsString:"150";y2.baseVal.valueAsString:"150";}
+            100% {y1.baseVal.valueAsString:"165.7";y2.baseVal.valueAsString:"143";}
+        } */
+    </style>
+
+</head>
+
+<body>
+    <div id="faccina_sorridente">
+        <svg width="342.9" height="342.9" viewBox="0 0 342.9 342.9">
+            <g id="faccia">
+                <circle id="viso" class="viso" cx="171.5" cy="171.5" r="166" />
+                <path id="bocca" class="bocca" d="M557.1,433.2c8.6,5.8,22.5,9.6,38.2,9.6s29.5-3.8,38.1-9.6"
+                    transform="translate(-423.8 -243.8)" />
+                <line id="occhio_destro" class="occhio_destro" x1="186.2" y1="165.7" x2="186.2" y2="143" />
+                <line id="occhio_sinistro" class="occhio_sinistro" x1="156.7" y1="165.7" x2="156.7" y2="143" />
+            </g>
+        </svg>
+    </div>
+
+    <script>
+
+        const occhio_destro = document.getElementById("occhio_destro");
+        const occhio_sinistro = document.getElementById("occhio_sinistro");
+
+        document.addEventListener('click', function (event) {
+
+            switch (event.target.id) {
+                case 'occhio_destro':
+                    occhio_destro.y1.baseVal.valueAsString = "150";
+                    occhio_destro.y2.baseVal.valueAsString = "150";
+
+                    occhio_destro.y1.baseVal.valueAsString = "165.7";
+                    occhio_destro.y2.baseVal.valueAsString = "143";
+
+                    var id = null;
+
+                    var tmp = -1;
+                    var ritorna = false;
+                    clearInterval(id);
+                    id = setInterval(frame, 50);
+                    function frame() {
+                        if (tmp == 0) {
+                            clearInterval(id);
+                        } else {
+                            if (tmp == -11) {
+                                ritorna = true;
+                            }
+                            if (ritorna) { tmp++; }
+                            else { tmp--; }
+                            occhio_destro.y1.baseVal.valueAsString = (165.7 + tmp).toString();
+                            occhio_destro.y2.baseVal.valueAsString = (143 - tmp).toString();
+                        }
+                    }
+
+                default: break;
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>
