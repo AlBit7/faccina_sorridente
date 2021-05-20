@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>faccina</title>
+    <title></title>
 
     <style>
         #body {
@@ -21,7 +21,7 @@
         .viso {
             fill: none;
             stroke-width: 11px;
-        }
+        }  
 
         .viso,
         .occhio_sinistro,
@@ -51,7 +51,7 @@
 
 <body id="body">
     <div id="faccina_sorridente">
-        <svg width="342.9" height="342.9" viewBox="0 0 342.9 342.9">
+        <svg id="svg" width="342.9" height="342.9" viewBox="0 0 342.9 342.9" style="transform: rotate(0deg);">
             <g id="faccia">
                 <circle id="viso" class="viso" cx="171.5" cy="171.5" r="166" />
                 <path id="bocca" class="bocca" d="M557.1,433.2c8.6,5.8,22.5,9.6,38.2,9.6s29.5-3.8,38.1-9.6"
@@ -67,12 +67,28 @@
         const viso = document.getElementById("viso");
         const bocca = document.getElementById("bocca");
         const body = document.getElementById("body");
+        const svg = document.getElementById("svg");
 
         var notte = 1;
+
+        function rotazioneAttuale() {
+
+            var angolo = parseInt(svg.style.transform.match(/(\d+)/)[0]);
+
+            if (angolo > 360) {
+                angolo -= 360;
+            }
+            if (angolo < 0) {
+                angolo += 360;
+            }
+
+            return angolo;
+        }
 
         document.addEventListener('click', function (event) {
 
             switch (event.target.id) {
+
                 case 'occhio_destro':
                 case 'occhio_sinistro':
 
@@ -128,31 +144,52 @@
 
                     console.log("bocca");
 
-                    var id = null;
-                    var tmp = -1;
-                    var ritorna = false;
+                    rotazioneIniziale = tmp = rotazioneAttuale();
                     clearInterval(id);
-                    var id = setInterval(animazioneBocca, 20);
+                    var id = setInterval(animazioneBocca, 5);
                     function animazioneBocca() {
-                        if (tmp == 0) {
+                        if (tmp > 360 + rotazioneIniziale) {
                             clearInterval(id);
                         } else {
-                            if (tmp == -22) {
-                                ritorna = true;
-                            }
-                            if (ritorna) { tmp++; }
-                            else { tmp--; }
-                            bocca.transform.baseVal[0].matrix.f = -200 + tmp;
-                            bocca.transform.baseVal[0].matrix.f = -244 - tmp;
+                            svg.style.transform = "rotate(" + tmp.toString() + "deg)";
+                            tmp += 3;
                         }
                     }
-
                     break;
 
                 default: break;
             }
 
         });
+
+        body.onkeypress = function (tasto) {
+            switch (tasto.key) {
+
+                case 's':
+                    svg.style.transform = "rotate(" + (rotazioneAttuale() + 45).toString() + "deg)";
+                    break;
+
+                case 'd':
+                    svg.style.transform = "rotate(" + (rotazioneAttuale() - 45).toString() + "deg)";
+                    break;
+
+                case 'r':
+                    rotazioneIniziale = tmp = rotazioneAttuale();
+                    clearInterval(id);
+                    var id = setInterval(animazioneBocca, 5);
+                    function animazioneBocca() {
+                        if (tmp > 360) {
+                            clearInterval(id);
+                        } else {
+                            svg.style.transform = "rotate(" + tmp.toString() + "deg)";
+                            tmp += 3;
+                        }
+                    }
+                    break;
+
+                default: break;
+            }
+        };
 
     </script>
 </body>
