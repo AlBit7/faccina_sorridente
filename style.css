@@ -1,0 +1,40 @@
+#body {
+    margin: 0px;
+    background-color: black;
+    height: 100%;
+}
+
+#faccina_sorridente {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.viso {
+    fill: none;
+    stroke-width: 11px;
+}  
+
+.viso,
+.occhio_sinistro,
+.occhio_destro,
+.bocca {
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.occhio_sinistro:hover,
+.occhio_destro:hover,
+.bocca:hover,
+.viso:hover {
+    cursor: pointer;
+}
+
+.occhio_sinistro,
+.occhio_destro,
+.bocca {
+    fill: none;
+    stroke-width: 8px;
+}
