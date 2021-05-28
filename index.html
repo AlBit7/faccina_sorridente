@@ -2,54 +2,19 @@
 <html>
 
 <head>
+
     <title></title>
 
-    <style>
-        #body {
-            margin: 0px;
-            background-color: black;
-            height: 100%;
-        }
+    <!-- CSS -->
 
-        #faccina_sorridente {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .viso {
-            fill: none;
-            stroke-width: 11px;
-        }  
-
-        .viso,
-        .occhio_sinistro,
-        .occhio_destro,
-        .bocca {
-            stroke: #fff;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .occhio_sinistro:hover,
-        .occhio_destro:hover,
-        .bocca:hover,
-        .viso:hover {
-            cursor: pointer;
-        }
-
-        .occhio_sinistro,
-        .occhio_destro,
-        .bocca {
-            fill: none;
-            stroke-width: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body id="body">
+
+    <!-- SVG -->
+
     <div id="faccina_sorridente">
         <svg id="svg" width="342.9" height="342.9" viewBox="0 0 342.9 342.9" style="transform: rotate(0deg);">
             <g id="faccia">
@@ -62,136 +27,10 @@
         </svg>
     </div>
 
-    <script>
+    <!-- SCRIPT -->
 
-        const viso = document.getElementById("viso");
-        const bocca = document.getElementById("bocca");
-        const body = document.getElementById("body");
-        const svg = document.getElementById("svg");
+    <script src="main.js"></script>
 
-        var notte = 1;
-
-        function rotazioneAttuale() {
-
-            var angolo = parseInt(svg.style.transform.match(/(\d+)/)[0]);
-
-            if (angolo > 360) {
-                angolo -= 360;
-            }
-            if (angolo < 0) {
-                angolo += 360;
-            }
-
-            return angolo;
-        }
-
-        document.addEventListener('click', function (event) {
-
-            switch (event.target.id) {
-
-                case 'occhio_destro':
-                case 'occhio_sinistro':
-
-                    console.log('occhiolino');
-
-                    const occhio = document.getElementById(event.target.id);
-
-                    occhio.y1.baseVal.valueAsString = "165.7";
-                    occhio.y2.baseVal.valueAsString = "143";
-
-                    var id = null;
-                    var tmp = -1;
-                    var ritorna = false;
-                    clearInterval(id);
-                    var id = setInterval(animazioneOcchio, 20);
-                    function animazioneOcchio() {
-                        if (tmp == 0) {
-                            clearInterval(id);
-                        } else {
-                            if (tmp == -12) {
-                                ritorna = true;
-                            }
-                            if (ritorna) { tmp++; }
-                            else { tmp--; }
-                            occhio.y1.baseVal.value = 165.7 + tmp;
-                            occhio.y2.baseVal.value = 143 - tmp;
-                        }
-                    }
-
-                    break;
-
-                case 'occhio_sinistro':
-
-                    console.log('sinistro');
-                    break;
-
-                case 'viso':
-
-                    console.log("viso --> cambio colore");
-
-                    if (notte) {
-                        body.style.backgroundColor = 'white';
-                        occhio_destro.style.stroke = occhio_sinistro.style.stroke = bocca.style.stroke = viso.style.stroke = "black";
-                        notte = 0;
-                    } else {
-                        body.style.backgroundColor = 'black';
-                        occhio_destro.style.stroke = occhio_sinistro.style.stroke = bocca.style.stroke = viso.style.stroke = "white";
-                        notte = 1;
-                    }
-                    break;
-
-                case 'bocca':
-
-                    console.log("bocca");
-
-                    rotazioneIniziale = tmp = rotazioneAttuale();
-                    clearInterval(id);
-                    var id = setInterval(animazioneBocca, 5);
-                    function animazioneBocca() {
-                        if (tmp > 360 + rotazioneIniziale) {
-                            clearInterval(id);
-                        } else {
-                            svg.style.transform = "rotate(" + tmp.toString() + "deg)";
-                            tmp += 3;
-                        }
-                    }
-                    break;
-
-                default: break;
-            }
-
-        });
-
-        body.onkeypress = function (tasto) {
-            switch (tasto.key) {
-
-                case 's':
-                    svg.style.transform = "rotate(" + (rotazioneAttuale() + 45).toString() + "deg)";
-                    break;
-
-                case 'd':
-                    svg.style.transform = "rotate(" + (rotazioneAttuale() - 45).toString() + "deg)";
-                    break;
-
-                case 'r':
-                    rotazioneIniziale = tmp = rotazioneAttuale();
-                    clearInterval(id);
-                    var id = setInterval(animazioneBocca, 5);
-                    function animazioneBocca() {
-                        if (tmp > 360) {
-                            clearInterval(id);
-                        } else {
-                            svg.style.transform = "rotate(" + tmp.toString() + "deg)";
-                            tmp += 3;
-                        }
-                    }
-                    break;
-
-                default: break;
-            }
-        };
-
-    </script>
 </body>
 
 </html>
